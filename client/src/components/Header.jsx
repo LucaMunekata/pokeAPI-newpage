@@ -11,7 +11,7 @@ export const Header = () => {
         <a href="/" className="navbar-brand" style={{ paddingLeft: "100px" }}>
           <img
             className="pokedex-logo"
-            src="https://raw.githubusercontent.com/LucaMunekata/pokeAPI/main/icons/pokedex.png"
+            src="https://raw.githubusercontent.com/LucaMunekata/pokeAPI-webpage/main/icons/pokedex.png"
           ></img>
         </a>
         <form className="form-inline d-flex" style={{ paddingRight: "100px" }}>

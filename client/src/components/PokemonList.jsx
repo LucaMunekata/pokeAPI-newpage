@@ -6,12 +6,10 @@ export const PokemonList = () => {
   const { pokeAPIData } = useContext(PokemonContext);
   return (
     <>
-      <div className="container">
-        <div className="card-grid">
-          {pokeAPIData.map((pokemon) => (
-            <PokemonCard pokemon={pokemon} key={pokemon.id} />
-          ))}
-        </div>
+      <div className="card-grid">
+        {pokeAPIData.map((pokemon) => (
+          <PokemonCard pokemon={pokemon} key={pokemon.id} />
+        ))}
       </div>
     </>
   );

@@ -10,8 +10,24 @@ nav {
   width: 100%;
   height: 100px;
 }
+.teste {
+  height: 90px;
+  width: 100%;
+  background-color: red;
+}
+
+.filter-bar {
+  width: 200px;
+  height: 400px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  margin-top: 30px;
+  padding-left: 10px;
+  margin-right: 60px;
+}
 
 .container {
+  display: flex;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -22,10 +38,9 @@ nav {
 }
 
 .card-grid {
-  position: absolute;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  left: 200px;
+  gap: 30px;
 }
 
 .pokemon-img {
@@ -36,16 +51,13 @@ nav {
   border-radius: 15px;
   height: 200px;
   width: 200px;
-  margin-top: 20px;
+  margin-top: 30px;
+  padding-right: 10px;
 }
 
 .pokemon-img img {
   width: 100%;
   height: 100%;
-}
-
-.pokemon-info {
-  padding: 15px;
 }
 
 .pokemon-num {
@@ -59,13 +71,21 @@ nav {
 .pokemon-name {
   color: black;
   font-family: verdana, sans-serif;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   display: block;
 }
 
+.pokemon-types {
+  width: 200px;
+}
+
 .pokemon-types img {
-  width: 25%;
-  height: 25%;
+  width: 35%;
+  height: 35%;
   padding-right: 5px;
+}
+
+.container-button {
+  margin-top: 20px;
 }

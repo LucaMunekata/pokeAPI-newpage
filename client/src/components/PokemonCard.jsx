@@ -13,7 +13,10 @@ export const PokemonCard = (pokemon) => {
   const upperCase = pokemonName[0].toUpperCase() + pokemonName.slice(1);
 
   return (
-    <Link to={`/pokemon/${pokemon.id}`} style={{ textDecoration: "none" }}>
+    <Link
+      to={`/pokemon/${pokemon.pokemon.id}`}
+      style={{ textDecoration: "none" }}
+    >
       <div className="pokemon-img">
         <img
           src={pokemon.pokemon.sprites.other["official-artwork"].front_default}
@@ -26,7 +29,8 @@ export const PokemonCard = (pokemon) => {
         <div className="pokemon-types">
           {pokemon.pokemon.types.map((type) => (
             <img
-              src={`https://raw.githubusercontent.com/LucaMunekata/pokeAPI/main/icons/types_icons/${type.type.name}.png`}
+              key={type.type.name}
+              src={`https://raw.githubusercontent.com/LucaMunekata/pokeAPI-webpage/main/icons/types_icons/${type.type.name}.png`}
               alt={type.type.name}
             />
           ))}
