@@ -41,6 +41,10 @@ export const PokemonProvider = ({ children }) => {
     getData();
   }, [offset]);
 
+  const loadMore = () => {
+    setOffset(offset + 40);
+  };
+
   return (
     <PokemonContext.Provider
       value={{
@@ -48,6 +52,7 @@ export const PokemonProvider = ({ children }) => {
         onInputChange,
         onResetForm,
         pokeAPIData,
+        loadMore,
       }}
     >
       {children}
