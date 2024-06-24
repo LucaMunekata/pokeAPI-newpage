@@ -7,7 +7,10 @@ export const Header = () => {
 
   return (
     <>
-      <nav className="navbar navbar-light bg-light justify-content-between">
+      <nav
+        className="navbar navbar-light bg-light justify-content-between"
+        style={{ position: "fixed" }}
+      >
         <a href="/" className="navbar-brand" style={{ paddingLeft: "100px" }}>
           <img
             className="pokedex-logo"

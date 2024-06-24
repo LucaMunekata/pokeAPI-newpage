@@ -9,13 +9,11 @@ export const HomePage = () => {
     <>
       <div className="container">
         <FilterBar></FilterBar>
-        <div className="right-container">
-          <PokemonList></PokemonList>
-          <div className="button-container">
-            <button className="load-button" onClick={loadMore}>
-              Load more Pokémon
-            </button>
-          </div>
+        <PokemonList></PokemonList>
+        <div className="button-container">
+          <button className="load-button" onClick={loadMore}>
+            Load more Pokémon
+          </button>
         </div>
       </div>
     </>

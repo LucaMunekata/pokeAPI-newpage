@@ -1,16 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { nameFormatter, getRegion } from "../helper.js";
+import {
+  nameFormatter,
+  idFormatter,
+  getRegion,
+  toUpperCase,
+} from "../helper.js";
 
 export const PokemonCard = (pokemon) => {
-  let numToStr = pokemon.pokemon.id.toString();
-  const len = numToStr.length;
-  for (let j = 0; j < 4 - len; j++) {
-    numToStr = "0" + numToStr;
-  }
+  const pokemonID = idFormatter(pokemon.pokemon.id.toString());
 
   const pokemonName = nameFormatter(pokemon.pokemon.name);
-  const upperCase = pokemonName[0].toUpperCase() + pokemonName.slice(1);
+  const upperCase = toUpperCase(pokemonName);
 
   return (
     <Link
@@ -24,7 +25,7 @@ export const PokemonCard = (pokemon) => {
         />
       </div>
       <div className="pokemon-info">
-        <span className="pokemon-num">{"#" + numToStr}</span>
+        <span className="pokemon-num">{"#" + pokemonID}</span>
         <span className="pokemon-name">{upperCase}</span>
         <div className="pokemon-types">
           {pokemon.pokemon.types.map((type) => (

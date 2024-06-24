@@ -67,12 +67,18 @@ export function nameFormatter(name) {
     "enamorus-incarnate",
   ];
   const correct = ["jangmo-o", "hakamo-o", "kommo-o"];
-  let formated = "";
-  if (name.includes("-") && !correct.includes(name)) {
+  const hasApostrophe = ["farfetchd", "sirfetchd"];
+  const extra = ["flabebe"];
+  let formatted = "";
+  if (extra.includes(name)) {
+    return "flabébé";
+  } else if (hasApostrophe.includes(name)) {
+    return name.substring(0, 8) + "'" + name.substring(8);
+  } else if (name.includes("-") && !correct.includes(name)) {
     if (maleFemale.includes(name)) {
       let index = name.indexOf("-");
-      if (name === "nidoran-m") formated = name.substring(0, index) + "♂";
-      else formated = name.substring(0, index) + "♀";
+      if (name === "nidoran-m") formatted = name.substring(0, index) + "♂";
+      else formatted = name.substring(0, index) + "♀";
     }
     if (hasHyphen.includes(name)) {
       let capitalizeNext = false;
@@ -80,10 +86,10 @@ export function nameFormatter(name) {
         if (name[j] === "-") {
           capitalizeNext = true;
         } else if (capitalizeNext) {
-          formated += "-" + name[j].toUpperCase();
+          formatted += "-" + name[j].toUpperCase();
           capitalizeNext = false;
         } else {
-          formated += name[j];
+          formatted += name[j];
         }
       }
     } else if (hasSpace.includes(name)) {
@@ -92,10 +98,10 @@ export function nameFormatter(name) {
         if (name[j] === "-") {
           capitalizeNext = true;
         } else if (capitalizeNext) {
-          formated += " " + name[j].toUpperCase();
+          formatted += " " + name[j].toUpperCase();
           capitalizeNext = false;
         } else {
-          formated += name[j];
+          formatted += name[j];
         }
       }
     } else if (hasDotAndSpace.includes(name)) {
@@ -104,15 +110,15 @@ export function nameFormatter(name) {
         if (name[j] === "-") {
           capitalizeNext = true;
         } else if (capitalizeNext && name != "mime-jr") {
-          formated += ". " + name[j].toUpperCase();
+          formatted += ". " + name[j].toUpperCase();
           capitalizeNext = false;
         } else if (capitalizeNext && name === "mime-jr") {
-          formated += " " + name[j].toUpperCase();
+          formatted += " " + name[j].toUpperCase();
           capitalizeNext = false;
-        } else formated += name[j];
+        } else formatted += name[j];
       }
       if (name === "mime-jr") {
-        formated += ".";
+        formatted += ".";
       }
     } else if (hasColon.includes(name)) {
       let capitalizeNext = false;
@@ -120,19 +126,34 @@ export function nameFormatter(name) {
         if (name[j] === "-") {
           capitalizeNext = true;
         } else if (capitalizeNext) {
-          formated += ": " + name[j].toUpperCase();
+          formatted += ": " + name[j].toUpperCase();
           capitalizeNext = false;
         } else {
-          formated += name[j];
+          formatted += name[j];
         }
       }
     } else if (hasNothing.includes(name)) {
       let index = name.indexOf("-");
-      if (index !== -1) formated = name.substring(0, index);
+      if (index !== -1) formatted = name.substring(0, index);
     }
-    return formated;
+    return formatted;
   }
+
   return name;
+}
+
+export function idFormatter(id) {
+  const len = id.length;
+  let formatted = id;
+  for (let j = 0; j < 4 - len; j++) {
+    formatted = "0" + formatted;
+  }
+
+  return formatted;
+}
+
+export function toUpperCase(name) {
+  return name[0].toUpperCase() + name.slice(1);
 }
 
 export function getRegion(num) {

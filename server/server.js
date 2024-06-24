@@ -20,11 +20,9 @@ const getPokemons = async (limit, offset) => {
   }
 };
 
-/*const getPokemonsByID = async (id) => {
+const getPokemonsByID = async (id) => {
   try {
-    const response = await fetch(
-      "https://pokeapi.co/api/v2/pokemon/${id}"
-    );
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -34,11 +32,18 @@ const getPokemons = async (limit, offset) => {
     console.error("Error fetching data:", error);
     return { error: "Failed to fetch data" };
   }
-};*/
+};
 
 app.get("/api", async (req, res) => {
   const { limit = 40, offset = 0 } = req.query;
   const data = await getPokemons(limit, offset);
+  res.setHeader("Content-Type", "application/json");
+  res.json({ data });
+});
+
+app.get("/api/:id", async (req, res) => {
+  const { id } = req.params;
+  const data = await getPokemonsByID(id);
   res.setHeader("Content-Type", "application/json");
   res.json({ data });
 });
