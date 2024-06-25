@@ -177,3 +177,35 @@ export function getRegion(num) {
 
   return region;
 }
+
+export function evolutionCount(chain) {
+  const specialCases = [
+    "oddish",
+    "poliwag",
+    "slowpoke",
+    "scyther",
+    "eevee",
+    "tyrogue",
+    "wurmple",
+    "ralts",
+    "nincada",
+    "snorunt",
+    "clamperl",
+    "burmy",
+    "cosmog",
+    "applin",
+    "charcadet",
+  ];
+  if (!specialCases.includes(chain.species.name)) {
+    if (!chain.evolves_to["0"]) return 1;
+    else if (!chain.evolves_to["0"].evolves_to["0"]) return 2;
+    else if (!chain.evolves_to["0"].evolves_to["0"].evolves_to["0"]) return 3;
+  } else return 0;
+}
+
+export function divStyle(type) {
+  if (type === 0) return "spcase";
+  else if (type === 1) return "single";
+  else if (type === 2) return "double";
+  else if (type === 3) return "triple";
+}

@@ -8,6 +8,8 @@ import {
   toUpperCase,
   getRegion,
   getChain,
+  evolutionCount,
+  divStyle,
 } from "../helper";
 
 export const PokemonPage = () => {
@@ -107,14 +109,16 @@ export const PokemonPage = () => {
             <div className="pokemon-page-weight">
               <span> Weight: {pokemon.data.weight / 10}kg</span>
             </div>
+            {loading3 ? (
+              <Loader />
+            ) : (
+              <>
+                <div className="pokemon-page-teste">
+                  {divStyle(evolutionCount(evolutionChain.data.chain))}
+                </div>
+              </>
+            )}
           </div>
-          {loading3 ? (
-            <Loader />
-          ) : (
-            <>
-              <div className="pokemon-page-teste">{evolutionChain.data.id}</div>
-            </>
-          )}
         </>
       )}
     </div>
