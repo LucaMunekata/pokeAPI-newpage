@@ -156,6 +156,12 @@ export function toUpperCase(name) {
   return name[0].toUpperCase() + name.slice(1);
 }
 
+export function getChain(url) {
+  let chain = "";
+  for (let i = 42; url[i] !== "/"; i++) chain = chain + url[i];
+  return parseInt(chain);
+}
+
 export function getRegion(num) {
   let region = "";
   if (num < 152) region = "Kanto";

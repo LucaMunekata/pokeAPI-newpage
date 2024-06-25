@@ -50,6 +50,34 @@ export const PokemonProvider = ({ children }) => {
     }
   };
 
+  const getSpecies = async (species) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/species/${species}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getEvolutionChain = async (chain) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/chain/${chain}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
     getData();
   }, [offset]);
@@ -67,6 +95,8 @@ export const PokemonProvider = ({ children }) => {
         pokeAPIData,
         loadMore,
         getPokemonByID,
+        getSpecies,
+        getEvolutionChain,
         loading,
         setLoading,
       }}

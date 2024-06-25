@@ -34,6 +34,38 @@ const getPokemonsByID = async (id) => {
   }
 };
 
+const getSpecies = async (id) => {
+  try {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon-species/${id}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return { error: "Failed to fetch data" };
+  }
+};
+
+const getEvolutionChain = async (chain) => {
+  try {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/evolution-chain/${chain}/`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return { error: "Failed to fetch data" };
+  }
+};
+
 app.get("/api", async (req, res) => {
   const { limit = 40, offset = 0 } = req.query;
   const data = await getPokemons(limit, offset);
@@ -44,6 +76,20 @@ app.get("/api", async (req, res) => {
 app.get("/api/:id", async (req, res) => {
   const { id } = req.params;
   const data = await getPokemonsByID(id);
+  res.setHeader("Content-Type", "application/json");
+  res.json({ data });
+});
+
+app.get("/api/species/:species", async (req, res) => {
+  const { species } = req.params;
+  const data = await getSpecies(species);
+  res.setHeader("Content-Type", "application/json");
+  res.json({ data });
+});
+
+app.get("/api/chain/:chain", async (req, res) => {
+  const { chain } = req.params;
+  const data = await getEvolutionChain(chain);
   res.setHeader("Content-Type", "application/json");
   res.json({ data });
 });

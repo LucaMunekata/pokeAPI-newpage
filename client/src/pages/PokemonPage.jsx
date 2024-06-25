@@ -2,13 +2,25 @@ import { React, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PokemonContext } from "../context/PokemonContext";
 import { Loader } from "../components";
-import { idFormatter, nameFormatter, toUpperCase } from "../helper";
+import {
+  idFormatter,
+  nameFormatter,
+  toUpperCase,
+  getRegion,
+  getChain,
+} from "../helper";
 
 export const PokemonPage = () => {
   const { getPokemonByID } = useContext(PokemonContext);
+  const { getSpecies } = useContext(PokemonContext);
+  const { getEvolutionChain } = useContext(PokemonContext);
 
   const [loading, setLoading] = useState(true);
+  const [loading2, setLoading2] = useState(true);
+  const [loading3, setLoading3] = useState(true);
   const [pokemon, setPokemon] = useState({});
+  const [species, setSpecies] = useState({});
+  const [evolutionChain, setEvolutionChain] = useState({});
   const [imgSrc, setImgSrc] = useState("");
 
   const { id } = useParams();
@@ -20,9 +32,34 @@ export const PokemonPage = () => {
     setLoading(false);
   };
 
+  const fetchPokemonSpecies = async (id) => {
+    const data = await getSpecies(id);
+    setSpecies(data);
+    setLoading2(false);
+  };
+
+  const fetchEvolutionChain = async (chain) => {
+    const data = await getEvolutionChain(chain);
+    setEvolutionChain(data);
+    setLoading3(false);
+  };
+
   useEffect(() => {
     fetchPokemon(id);
   }, []);
+
+  useEffect(() => {
+    fetchPokemonSpecies(id);
+  }, []);
+
+  useEffect(() => {
+    let url = loading2 ? undefined : species.data.evolution_chain.url;
+    let chain;
+    if (url) {
+      chain = getChain(url);
+      fetchEvolutionChain(chain);
+    }
+  }, [species]);
 
   const handleMouseEnter = () => {
     setImgSrc(pokemon.data.sprites.other["official-artwork"].front_shiny);
@@ -33,30 +70,53 @@ export const PokemonPage = () => {
   };
 
   return (
-    <>
-      <div className="container">
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            <div className="main-pokemon-page">
-              <span className="pokemon-page-name">
-                {nameFormatter(toUpperCase(pokemon.data.name))}
-              </span>
-              <span className="pokemon-page-number">
-                #{idFormatter(pokemon.data.id.toString())}
-              </span>
-              <div className="pokemon-page-img">
-                <img
-                  src={imgSrc}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                ></img>
-              </div>
+    <div className="container">
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="main-pokemon-page">
+            <span className="pokemon-page-name">
+              {toUpperCase(nameFormatter(pokemon.data.name))}
+            </span>
+            <span className="pokemon-page-number">
+              #{idFormatter(pokemon.data.id.toString())}
+            </span>
+            <div className="pokemon-page-img">
+              <img
+                src={imgSrc}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              ></img>
             </div>
-          </>
-        )}
-      </div>
-    </>
+            <div className="pokemon-page-types">
+              {pokemon.data.types.map((type) => (
+                <img
+                  key={type.type.name}
+                  src={`https://raw.githubusercontent.com/LucaMunekata/pokeAPI-webpage/main/icons/types_icons/${type.type.name}.png`}
+                  alt={type.type.name}
+                />
+              ))}
+            </div>
+            <div className="pokemon-page-region">
+              <span> Region: {getRegion(pokemon.data.id)}</span>
+            </div>
+            <div className="pokemon-page-height">
+              <span> Height: {pokemon.data.height / 10}m</span>
+            </div>
+            <div className="pokemon-page-weight">
+              <span> Weight: {pokemon.data.weight / 10}kg</span>
+            </div>
+          </div>
+          {loading3 ? (
+            <Loader />
+          ) : (
+            <>
+              <div className="pokemon-page-teste">{evolutionChain.data.id}</div>
+            </>
+          )}
+        </>
+      )}
+    </div>
   );
 };
