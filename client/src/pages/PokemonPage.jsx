@@ -46,6 +46,49 @@ export const PokemonPage = () => {
     setLoading3(false);
   };
 
+  const renderDivs = (count) => {
+    if (count === 1) {
+      return (
+        <>
+          <div
+            className="pokemon-evolution-img"
+            style={{ height: "9.766vw", width: "9.766vw" }}
+          ></div>
+        </>
+      );
+    } else if (count === 2) {
+      return (
+        <>
+          <div
+            className="pokemon-evolution-img"
+            style={{ left: "6.170vw", height: "9.766vw", width: "9.766vw" }}
+          ></div>
+          <div
+            className="pokemon-evolution-img"
+            style={{ left: "22.106vw", height: "9.766vw", width: "9.766vw" }}
+          ></div>
+        </>
+      );
+    } else if (count === 3) {
+      return (
+        <>
+          <div
+            className="pokemon-evolution-img"
+            style={{ left: "2.186vw", height: "9.766vw", width: "9.766vw" }}
+          ></div>
+          <div
+            className="pokemon-evolution-img"
+            style={{ left: "14.138vw", height: "9.766vw", width: "9.766vw" }}
+          ></div>
+          <div
+            className="pokemon-evolution-img"
+            style={{ left: "26.090vw", height: "9.766vw", width: "9.766vw" }}
+          ></div>
+        </>
+      );
+    }
+  };
+
   useEffect(() => {
     fetchPokemon(id);
   }, []);
@@ -113,8 +156,11 @@ export const PokemonPage = () => {
               <Loader />
             ) : (
               <>
-                <div className="pokemon-page-teste">
-                  {divStyle(evolutionCount(evolutionChain.data.chain))}
+                <div className="pokemon-page-evolution-chain">
+                  {renderDivs(
+                    evolutionCount(evolutionChain.data.chain),
+                    evolutionChain.data.chain
+                  )}
                 </div>
               </>
             )}

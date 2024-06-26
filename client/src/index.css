@@ -150,7 +150,7 @@ nav {
   top: 0vw;
 }
 
-.pokemon-page-teste {
+.pokemon-page-evolution-chain {
   position: absolute;
   width: 38.042vw;
   height: 12.68vw;
@@ -158,6 +158,15 @@ nav {
   top: 2.604vw;
   background-color: #ac3b61;
   border-radius: 0.977vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pokemon-evolution-img {
+  position: absolute;
+  border-radius: 15px;
+  background-color: white;
 }
 
 .pokemon-page-img {
@@ -170,6 +179,7 @@ nav {
   background-color: #ac3b61;
 }
 
+.pokemon-evolution-img,
 .pokemon-page-img img {
   height: 100%;
   width: 100%;
