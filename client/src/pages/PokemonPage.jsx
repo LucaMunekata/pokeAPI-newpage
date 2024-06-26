@@ -90,6 +90,15 @@ export const PokemonPage = () => {
           evolutionChain.data.chain.species.name,
           evolutionChain.data.chain.evolves_to[0]?.species.name,
           evolutionChain.data.chain.evolves_to[0]?.evolves_to[0]?.species.name,
+          evolutionChain.data.chain.evolves_to[0]?.evolves_to[1]?.species.name,
+          evolutionChain.data.chain.evolves_to[1]?.species.name,
+          evolutionChain.data.chain.evolves_to[1]?.evolves_to[0]?.species.name,
+          evolutionChain.data.chain.evolves_to[2]?.species.name,
+          evolutionChain.data.chain.evolves_to[3]?.species.name,
+          evolutionChain.data.chain.evolves_to[4]?.species.name,
+          evolutionChain.data.chain.evolves_to[5]?.species.name,
+          evolutionChain.data.chain.evolves_to[6]?.species.name,
+          evolutionChain.data.chain.evolves_to[7]?.species.name,
         ].filter(Boolean);
         fetchEvolutionSprite(names);
       }
@@ -157,9 +166,7 @@ export const PokemonPage = () => {
                     <>
                       {renderDivs(
                         evolutionCount(evolutionChain.data.chain),
-                        evolutionSprite["e1"],
-                        evolutionSprite["e2"],
-                        evolutionSprite["e3"]
+                        evolutionSprite
                       )}
                     </>
                   )}

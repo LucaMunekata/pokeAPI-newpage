@@ -179,6 +179,20 @@ export function getRegion(num) {
 }
 
 export function evolutionCount(chain) {
+  const case4 = ["wurmple"];
+  const case5 = ["oddish", "poliwag", "ralts", "cosmog"];
+  const case6 = [
+    "slowpoke",
+    "scyther",
+    "nincada",
+    "snorunt",
+    "clamperl",
+    "burmy",
+    "charcadet",
+  ];
+  const case7 = ["tyrogue"];
+  const case8 = ["eevee"];
+  const case9 = ["applin"];
   const specialCases = [
     "oddish",
     "poliwag",
@@ -200,7 +214,12 @@ export function evolutionCount(chain) {
     if (!chain.evolves_to["0"]) return 1;
     else if (!chain.evolves_to["0"].evolves_to["0"]) return 2;
     else if (!chain.evolves_to["0"].evolves_to["0"].evolves_to["0"]) return 3;
-  } else return 0;
+  } else if (case4.includes(chain.species.name)) return 4;
+  else if (case5.includes(chain.species.name)) return 5;
+  else if (case6.includes(chain.species.name)) return 6;
+  else if (case7.includes(chain.species.name)) return 7;
+  else if (case8.includes(chain.species.name)) return 8;
+  else if (case9.includes(chain.species.name)) return 9;
 }
 
 export function divStyle(type) {
