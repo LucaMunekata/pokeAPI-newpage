@@ -1,7 +1,9 @@
 import { React, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PokemonContext } from "../context/PokemonContext";
 import { Loader } from "../components";
+import { renderDivs } from "../customDivs";
 import {
   idFormatter,
   nameFormatter,
@@ -9,7 +11,6 @@ import {
   getRegion,
   getChain,
   evolutionCount,
-  divStyle,
 } from "../helper";
 
 export const PokemonPage = () => {
@@ -57,7 +58,7 @@ export const PokemonPage = () => {
     for (const name of names) {
       if (name) {
         const data = await getEvolutionSprite(name);
-        sprites[`e${i}`] = data.data.sprites;
+        sprites[`e${i}`] = data.data;
       }
       i++;
     }
@@ -65,77 +66,13 @@ export const PokemonPage = () => {
     setLoading4(false);
   };
 
-  const renderDivs = (count, sprite, sprite2, sprite3) => {
-    if (count === 1) {
-      if (!sprite) return null;
-      else
-        return (
-          <>
-            <div
-              className="pokemon-evolution-img"
-              style={{ height: "9.766vw", width: "9.766vw" }}
-            >
-              <img src={sprite.other["official-artwork"].front_default}></img>
-            </div>
-          </>
-        );
-    } else if (count === 2) {
-      if (!sprite || !sprite2) return null;
-      else
-        return (
-          <>
-            <div
-              className="pokemon-evolution-img"
-              style={{ left: "6.170vw", height: "9.766vw", width: "9.766vw" }}
-            >
-              <img src={sprite.other["official-artwork"].front_default}></img>
-            </div>
-            <p class="arrow right"></p>
-            <div
-              className="pokemon-evolution-img"
-              style={{ left: "22.106vw", height: "9.766vw", width: "9.766vw" }}
-            >
-              <img src={sprite2.other["official-artwork"].front_default}></img>
-            </div>
-          </>
-        );
-    } else if (count === 3) {
-      if (!sprite || !sprite2 || !sprite3) return null;
-      else
-        return (
-          <>
-            <div
-              className="pokemon-evolution-img"
-              style={{ left: "2.186vw", height: "9.766vw", width: "9.766vw" }}
-            >
-              <img src={sprite.other["official-artwork"].front_default}></img>
-            </div>
-            <p className="arrow right" style={{ left: "32.66%" }}></p>
-            <div
-              className="pokemon-evolution-img"
-              style={{ left: "14.138vw", height: "9.766vw", width: "9.766vw" }}
-            >
-              <img src={sprite2.other["official-artwork"].front_default}></img>
-            </div>
-            <p className="arrow right" style={{ left: `64.33%` }}></p>
-            <div
-              className="pokemon-evolution-img"
-              style={{ left: "26.090vw", height: "9.766vw", width: "9.766vw" }}
-            >
-              <img src={sprite3.other["official-artwork"].front_default}></img>
-            </div>
-          </>
-        );
-    }
-  };
-
   useEffect(() => {
     fetchPokemon(id);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     fetchPokemonSpecies(id);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     let url = loading2 ? undefined : species.data.evolution_chain.url;
@@ -210,6 +147,9 @@ export const PokemonPage = () => {
               <Loader />
             ) : (
               <>
+                <div className="evolution-chain">
+                  <span className="evolution-chain-text">Evolution Chain</span>
+                </div>
                 <div className="pokemon-page-evolution-chain">
                   {loading4 ? (
                     <Loader />
