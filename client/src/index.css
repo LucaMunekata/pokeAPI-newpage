@@ -163,10 +163,24 @@ nav {
   justify-content: center;
 }
 
+.arrow {
+  position: absolute;
+  border: solid white;
+  border-width: 0 5px 5px 0;
+  display: inline-block;
+  padding: 4px;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
 .pokemon-evolution-img {
   position: absolute;
   border-radius: 15px;
-  background-color: white;
+  background-color: #ac3b61;
+  border: 5px solid white;
 }
 
 .pokemon-page-img {
@@ -179,7 +193,11 @@ nav {
   background-color: #ac3b61;
 }
 
-.pokemon-evolution-img,
+.pokemon-evolution-img img {
+  height: 100%;
+  width: 100%;
+}
+
 .pokemon-page-img img {
   height: 100%;
   width: 100%;

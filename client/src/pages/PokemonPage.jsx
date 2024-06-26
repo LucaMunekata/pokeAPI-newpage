@@ -16,13 +16,16 @@ export const PokemonPage = () => {
   const { getPokemonByID } = useContext(PokemonContext);
   const { getSpecies } = useContext(PokemonContext);
   const { getEvolutionChain } = useContext(PokemonContext);
+  const { getEvolutionSprite } = useContext(PokemonContext);
 
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
   const [loading3, setLoading3] = useState(true);
+  const [loading4, setLoading4] = useState(true);
   const [pokemon, setPokemon] = useState({});
   const [species, setSpecies] = useState({});
   const [evolutionChain, setEvolutionChain] = useState({});
+  const [evolutionSprite, setEvolutionSprite] = useState({});
   const [imgSrc, setImgSrc] = useState("");
 
   const { id } = useParams();
@@ -46,46 +49,83 @@ export const PokemonPage = () => {
     setLoading3(false);
   };
 
-  const renderDivs = (count) => {
+  console.log(evolutionSprite);
+
+  const fetchEvolutionSprite = async (names) => {
+    const sprites = {};
+    let i = 1;
+    for (const name of names) {
+      if (name) {
+        const data = await getEvolutionSprite(name);
+        sprites[`e${i}`] = data.data.sprites;
+      }
+      i++;
+    }
+    setEvolutionSprite(sprites);
+    setLoading4(false);
+  };
+
+  const renderDivs = (count, sprite, sprite2, sprite3) => {
     if (count === 1) {
-      return (
-        <>
-          <div
-            className="pokemon-evolution-img"
-            style={{ height: "9.766vw", width: "9.766vw" }}
-          ></div>
-        </>
-      );
+      if (!sprite) return null;
+      else
+        return (
+          <>
+            <div
+              className="pokemon-evolution-img"
+              style={{ height: "9.766vw", width: "9.766vw" }}
+            >
+              <img src={sprite.other["official-artwork"].front_default}></img>
+            </div>
+          </>
+        );
     } else if (count === 2) {
-      return (
-        <>
-          <div
-            className="pokemon-evolution-img"
-            style={{ left: "6.170vw", height: "9.766vw", width: "9.766vw" }}
-          ></div>
-          <div
-            className="pokemon-evolution-img"
-            style={{ left: "22.106vw", height: "9.766vw", width: "9.766vw" }}
-          ></div>
-        </>
-      );
+      if (!sprite || !sprite2) return null;
+      else
+        return (
+          <>
+            <div
+              className="pokemon-evolution-img"
+              style={{ left: "6.170vw", height: "9.766vw", width: "9.766vw" }}
+            >
+              <img src={sprite.other["official-artwork"].front_default}></img>
+            </div>
+            <p class="arrow right"></p>
+            <div
+              className="pokemon-evolution-img"
+              style={{ left: "22.106vw", height: "9.766vw", width: "9.766vw" }}
+            >
+              <img src={sprite2.other["official-artwork"].front_default}></img>
+            </div>
+          </>
+        );
     } else if (count === 3) {
-      return (
-        <>
-          <div
-            className="pokemon-evolution-img"
-            style={{ left: "2.186vw", height: "9.766vw", width: "9.766vw" }}
-          ></div>
-          <div
-            className="pokemon-evolution-img"
-            style={{ left: "14.138vw", height: "9.766vw", width: "9.766vw" }}
-          ></div>
-          <div
-            className="pokemon-evolution-img"
-            style={{ left: "26.090vw", height: "9.766vw", width: "9.766vw" }}
-          ></div>
-        </>
-      );
+      if (!sprite || !sprite2 || !sprite3) return null;
+      else
+        return (
+          <>
+            <div
+              className="pokemon-evolution-img"
+              style={{ left: "2.186vw", height: "9.766vw", width: "9.766vw" }}
+            >
+              <img src={sprite.other["official-artwork"].front_default}></img>
+            </div>
+            <p className="arrow right" style={{ left: "32.66%" }}></p>
+            <div
+              className="pokemon-evolution-img"
+              style={{ left: "14.138vw", height: "9.766vw", width: "9.766vw" }}
+            >
+              <img src={sprite2.other["official-artwork"].front_default}></img>
+            </div>
+            <p className="arrow right" style={{ left: `64.33%` }}></p>
+            <div
+              className="pokemon-evolution-img"
+              style={{ left: "26.090vw", height: "9.766vw", width: "9.766vw" }}
+            >
+              <img src={sprite3.other["official-artwork"].front_default}></img>
+            </div>
+          </>
+        );
     }
   };
 
@@ -104,7 +144,21 @@ export const PokemonPage = () => {
       chain = getChain(url);
       fetchEvolutionChain(chain);
     }
-  }, [species]);
+  }, [loading2, species]);
+
+  useEffect(() => {
+    const fetchSprites = async () => {
+      if (!loading3) {
+        const names = [
+          evolutionChain.data.chain.species.name,
+          evolutionChain.data.chain.evolves_to[0]?.species.name,
+          evolutionChain.data.chain.evolves_to[0]?.evolves_to[0]?.species.name,
+        ].filter(Boolean);
+        fetchEvolutionSprite(names);
+      }
+    };
+    fetchSprites();
+  }, [loading3, evolutionChain]);
 
   const handleMouseEnter = () => {
     setImgSrc(pokemon.data.sprites.other["official-artwork"].front_shiny);
@@ -157,9 +211,17 @@ export const PokemonPage = () => {
             ) : (
               <>
                 <div className="pokemon-page-evolution-chain">
-                  {renderDivs(
-                    evolutionCount(evolutionChain.data.chain),
-                    evolutionChain.data.chain
+                  {loading4 ? (
+                    <Loader />
+                  ) : (
+                    <>
+                      {renderDivs(
+                        evolutionCount(evolutionChain.data.chain),
+                        evolutionSprite["e1"],
+                        evolutionSprite["e2"],
+                        evolutionSprite["e3"]
+                      )}
+                    </>
                   )}
                 </div>
               </>
