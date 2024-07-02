@@ -189,7 +189,7 @@ nav {
   border: 5px solid white;
 }
 
-.arrow {
+/* .arrow {
   position: absolute;
   border: solid white;
   border-width: 0 5px 5px 0;
@@ -200,7 +200,7 @@ nav {
 .right {
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
-}
+} */
 
 .pokemon-page-img {
   position: absolute;

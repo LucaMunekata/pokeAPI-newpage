@@ -389,7 +389,18 @@ export function renderDivs(count, sprites) {
       );
   } else if (count === 7) {
   } else if (count === 8) {
-    if (!sprites["e1"] || !sprites["e2"] || !sprites["e3"]) return null;
+    if (
+      !sprites["e1"] ||
+      !sprites["e2"] ||
+      !sprites["e3"] ||
+      !sprites["e4"] ||
+      !sprites["e5"] ||
+      !sprites["e6"] ||
+      !sprites["e7"] ||
+      !sprites["e8"] ||
+      !sprites["e9"]
+    )
+      return null;
     else
       return (
         <>
@@ -412,7 +423,7 @@ export function renderDivs(count, sprites) {
               ></img>
             </Link>
           </div>
-          <p className="arrow right" style={{ left: "32.66%" }}></p>
+          <p className="arrow right"></p>
           <div
             className="pokemon-evolution-img"
             style={{

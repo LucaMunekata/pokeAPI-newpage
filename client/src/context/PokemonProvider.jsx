@@ -4,6 +4,7 @@ import { useForm } from "../hook/useForm";
 
 export const PokemonProvider = ({ children }) => {
   const [pokeAPIData, setAPIData] = useState([]);
+  const [globalPokemons, setGlobalPokemons] = useState([]);
   const [offset, setOffset] = useState(0);
 
   const { valueSearch, onInputChange, onResetForm } = useForm({
@@ -30,6 +31,30 @@ export const PokemonProvider = ({ children }) => {
       const results = await Promise.all(promises);
 
       setAPIData([...pokeAPIData, ...results]);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  const getGlobalPokemons = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/all?limit=${100000}&offset=${0}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      const promises = data.data.results.map(async (pokemon) => {
+        const res = await fetch(pokemon.url);
+        const data = await res.json();
+        return data;
+      });
+      const results = await Promise.all(promises);
+
+      setGlobalPokemons(results);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -95,6 +120,10 @@ export const PokemonProvider = ({ children }) => {
     getData();
   }, [offset]);
 
+  useEffect(() => {
+    getGlobalPokemons();
+  }, [offset]);
+
   const loadMore = () => {
     setOffset(offset + 40);
   };
@@ -106,6 +135,7 @@ export const PokemonProvider = ({ children }) => {
         onInputChange,
         onResetForm,
         pokeAPIData,
+        globalPokemons,
         loadMore,
         getPokemonByID,
         getSpecies,

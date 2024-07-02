@@ -1,4 +1,4 @@
--farfetchd and sirfetchd
-- filterbar: 
-
-    Region | Type |
+-filterbar
+-next and previous button
+-search div cosmetics
+- search bar update while typing

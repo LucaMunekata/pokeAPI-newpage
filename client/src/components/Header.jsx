@@ -1,9 +1,22 @@
 import React, { useContext } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import { PokemonContext } from "../context/PokemonContext";
 
 export const Header = () => {
-  const {} = useContext(PokemonContext);
+  const { valueSearch, onInputChange, onResetForm } =
+    useContext(PokemonContext);
+
+  const nav = useNavigate();
+
+  const onSearchSubmit = (e) => {
+    e.preventDefault();
+    nav("/search", {
+      state: valueSearch,
+    });
+    onResetForm();
+  };
+
+  console.log("valueSearch:", valueSearch);
 
   return (
     <>
@@ -17,12 +30,19 @@ export const Header = () => {
             src="https://raw.githubusercontent.com/LucaMunekata/pokeAPI-webpage/main/icons/pokedex.png"
           ></img>
         </a>
-        <form className="form-inline d-flex" style={{ paddingRight: "100px" }}>
+        <form
+          onSubmit={onSearchSubmit}
+          className="form-inline d-flex"
+          style={{ paddingRight: "100px" }}
+        >
           <input
             className="form-control mr-sm-2"
             type="search"
             placeholder="Search"
-            aria-label="Search"
+            id=""
+            name="valueSearch"
+            value={valueSearch}
+            onChange={onInputChange}
           ></input>
           <button
             className="btn btn-outline-success my-2 my-sm-0"
